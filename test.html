@@ -1,135 +1,0 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title></title>
-  <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
-</head>
-
-<body>
-    <header>
-    <div class="wrap brand">
-      <div class="title">
-        <div class="logo">📚</div>
-        <div>
-          <h1>مدرسة الفاروق عمر الثانوية العسكرية بنين</h1>
-        </div>
-        <img src="icon.jpg" alt="شعار المدرسة" id="main-logo">
-      </div>
-      
-      <div class="header-actions">
-        <button id="dark-mode-toggle" class="btn btn-icon" aria-label="تبديل الوضع الليلي">🌙</button>
-        <button id="menu-toggle" class="btn btn-icon menu-toggle" aria-label="فتح القائمة">☰</button>
-      </div>
-    </div>
-    
-     <div id="nav-wrapper">
-      <nav class="wrap nav-menu">
-        <ul>
-          <li><a href="index.html" class="nav-link">الصفحه الرئيسية</a></li> 
-          <li><a href="news.html" class="nav-link">الأخبار والفعاليات</a></li>
-          <li><a href="test.html#test" class="nav-link active">جداول الامتحانات</li></a>
-        </ul>
-      </nav>
-    </div>
-  </header>
-        </div>
-      <section id="test">
-      <aside class="sidebar" id="additional-news-card">
-        <div class="card news-item">
-          <h3> جداول الاختبارات</h3>
-          <p class="meta">2025</p>
-         <p class="meta">الفصل الدراسي الاول</p>
-          <p>يرجى من جميع الطلاب وأولياء الأمور مراجعة جداول الامتحانات.</p>
-          <hr style="margin: 16px 0;">
-          <div class="links">
-            <a class="btn btn-primary" href="tables-test/table1.html">جداول الصف الأول الثانوي</a>
-            <a class="btn btn-primary" href="tables-test/table2.html">جداول الصف الثاني الثانوي</a>
-            <a class="btn btn-primary" href="tables-test/table3.html">جداول الصف الثالث الثانوي</a>
-          </div>
-        </div>
-      </aside>
-      </section>
-      
-      <footer>
-    © جميع الحقوق محفوظة لعام 2025 — مدرسة الفاروق عمر الثانوية العسكرية بنين
-  </footer>
-
-</body>
-
-  <script>
-    // JavaScript for Dark Mode Toggle
-    const toggleButton = document.getElementById('dark-mode-toggle');
-    const body = document.body;
-    
-    // Dark Mode Logic
-    if (localStorage.getItem('theme') === 'dark') {
-      body.classList.add('dark-mode');
-      toggleButton.textContent = '☀️';
-    }
-    
-    toggleButton.addEventListener('click', () => {
-      body.classList.toggle('dark-mode');
-      
-      if (body.classList.contains('dark-mode')) {
-        localStorage.setItem('theme', 'dark');
-        toggleButton.textContent = '☀️';
-      } else {
-        localStorage.setItem('theme', 'light');
-        toggleButton.textContent = '🌙';
-      }
-    });
-    
-    // ⬅️ كود JavaScript لتشغيل قائمة الهامبرغر مع حفظ حالة الرابط النشط ⬅️
-    const menuToggle = document.getElementById('menu-toggle');
-    const navWrapper = document.getElementById('nav-wrapper');
-    const navLinks = document.querySelectorAll('.nav-link');
-    const homeLink = document.querySelector('.nav-menu ul li:first-child .nav-link'); // رابط الرئيسية
-    
-    let activeLinkBeforeMenuOpen = null; // لحفظ الرابط النشط قبل فتح القائمة
-    
-    if (menuToggle && navWrapper) {
-      menuToggle.addEventListener('click', () => {
-        const isOpening = !navWrapper.classList.contains('menu-open');
-        
-        // تبديل حالة القائمة
-        navWrapper.classList.toggle('menu-open');
-        menuToggle.textContent = isOpening ? '✕' : '☰';
-        
-        if (isOpening) {
-          // **1. عند الفتح: حفظ النشط الحالي**
-          activeLinkBeforeMenuOpen = document.querySelector('.nav-link.active');
-        } else {
-          // **2. عند الإغلاق: تطبيق التمييز على الرابط النشط الذي كان موجوداً قبل الفتح**
-          // تم تغيير هذه الجزئية لكي لا يعيد التمييز لرابط "الرئيسية" قسراً.
-          if (activeLinkBeforeMenuOpen) {
-            navLinks.forEach(link => link.classList.remove('active'));
-            activeLinkBeforeMenuOpen.classList.add('active'); // إعادة تفعيل الرابط الذي كان نشطاً
-          }
-        }
-      });
-    }
-    
-    // إضافة مستمعي الأحداث لروابط القائمة داخل وضع الهامبرغر (لتحديث الـ active)
-    navLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        // إزالة 'active' من الكل
-        navLinks.forEach(l => l.classList.remove('active'));
-        // إضافة 'active' للرابط الذي تم الضغط عليه
-        link.classList.add('active');
-        
-        // إغلاق القائمة بعد الاختيار (لتحسين تجربة المستخدم على الهاتف)
-        if (navWrapper.classList.contains('menu-open')) {
-          navWrapper.classList.remove('menu-open');
-          menuToggle.textContent = '☰';
-          // بعد الاختيار والإغلاق، نحدث الرابط النشط الذي سيتم حفظه
-          activeLinkBeforeMenuOpen = link;
-        }
-      });
-    });
-  </script>
-</html>
