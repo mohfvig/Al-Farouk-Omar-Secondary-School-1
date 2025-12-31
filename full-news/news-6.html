@@ -1,100 +1,0 @@
-<!doctype html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>مدرسة الفاروق عمر الثانوية العسكرية بنين</title>
-  <link rel="stylesheet" href="../style.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
-</head>
-
-<body>
-  <header>
-    <div class="wrap brand">
-      <div class="title">
-        <div class="logo">📚</div>
-        <div>
-          <h1>مدرسة الفاروق عمر الثانوية العسكرية بنين</h1>
-        </div>
-        <img src="../icon.jpg" alt="شعار المدرسة" id="main-logo"> 
-      </div>
-
-      <div class="header-actions">
-        <button id="dark-mode-toggle" class="btn btn-icon" aria-label="تبديل الوضع الليلي">🌙</button>
-        <button id="menu-toggle" class="btn btn-icon menu-toggle" aria-label="فتح القائمة">☰</button>
-      </div>
-    </div>
-    
-    <div id="nav-wrapper">
-      <nav class="wrap nav-menu">
-        <ul>
-          <li><a href="../index.html" class="nav-link">الصفحه الرئيسية</a></li>
-          <li><a href="../news.html" class="nav-link active">الأخبار والفعاليات</a></li>
-          <li><a href="../test.html#test" class="nav-link">جداول الامتحانات</li></a>
-        </ul>
-      </nav>
-    </div>
-    </header>
-
-  <main class="wrap">
-    
-    <section class="card hero-section">
-      <h2>🎉 حفل تكريم المتفوقين 🎉</h2>
-      <p class="meta" style="margin-bottom: 20px;">نشر في: **نوفمبر 2024**</p>
-      <p style="text-align: right; line-height: 1.8;">
-        أقامت مدرسة الفاروق عمر الإعدادية حفلًا بهيجًا لتكريم كوكبة من طلابها المتفوقين دراسيًا والمتميزين في الأنشطة اللامنهجية. أُقيم الحفل في القاعة الرئيسية للمدرسة وشهد حضورًا كبيرًا من أولياء الأمور الكرام والهيئة التعليمية والإدارية. تم توزيع الجوائز وشهادات التقدير على الطلاب تقديراً لجهودهم وتفانيهم في طلب العلم. أكد مدير المدرسة على أهمية استمرار هذا التقليد لتحفيز باقي الطلاب على بذل المزيد من الجهد والوصول إلى أعلى المستويات.
-      </p>
-      <div style="margin-top: 30px;">
-        <a href="../news.html" class="btn btn-muted">← العودة إلى جميع الأخبار</a>
-      </div>
-    </section>
-
-  </main>
-
-  <footer>
- © جميع الحقوق محفوظة لعام 2025 — مدرسة الفاروق عمر الثانوية العسكرية بنين
-  </footer>
-  
-  <script>
-    // JavaScript for Dark Mode Toggle
-    const toggleButton = document.getElementById('dark-mode-toggle');
-    const body = document.body; 
-
-    // Dark Mode Logic
-    if (localStorage.getItem('theme') === 'dark') {
-      body.classList.add('dark-mode');
-      toggleButton.textContent = '☀️';
-    }
-
-    toggleButton.addEventListener('click', () => {
-      body.classList.toggle('dark-mode');
-
-      if (body.classList.contains('dark-mode')) {
-        localStorage.setItem('theme', 'dark');
-        toggleButton.textContent = '☀️';
-      } else {
-        localStorage.setItem('theme', 'light');
-        toggleButton.textContent = '🌙';
-      }
-    });
-
-    // ⬅️ كود JavaScript لتشغيل قائمة الهامبرغر ⬅️
-    const menuToggle = document.getElementById('menu-toggle');
-    const navWrapper = document.getElementById('nav-wrapper');
-    
-    if (menuToggle && navWrapper) {
-      menuToggle.addEventListener('click', () => {
-        navWrapper.classList.toggle('menu-open');
-        // تغيير أيقونة الهامبرغر إلى X عند الفتح
-        if (navWrapper.classList.contains('menu-open')) {
-          menuToggle.textContent = '✕';
-        } else {
-          menuToggle.textContent = '☰';
-        }
-      });
-    }
-  </script>
-</body>
-</html>
