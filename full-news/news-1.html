@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>اناتنا</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .full-news-body { text-align: right; line-height: 1.8; margin-top:20px; white-space: pre-wrap; word-wrap: break-word; overflow-wrap: break-word; }
+    .hero-section { height: auto !important; min-height: 450px; padding-bottom: 50px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap brand">
+      <div class="title">
+        <div class="logo">📚</div>
+        <h1>مدرسة الفاروق عمر الثانوية العسكرية بنين</h1>
+        <img src="../icon.jpg" id="main-logo">
+      </div>
+      <div class="header-actions">
+        <button id="dark-mode-toggle" class="btn btn-icon">🌙</button>
+        <button id="menu-toggle" class="btn btn-icon menu-toggle">☰</button>
+      </div>
+    </div>
+    <div id="nav-wrapper">
+      <nav class="wrap nav-menu">
+        <ul>
+          <li><a href="../index.html">الصفحة الرئيسية</a></li>
+          <li><a href="../news.html" class="active">الأخبار والفعاليات</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main class="wrap">
+    <section class="card hero-section">
+      <h2>اناتنا</h2>
+      <p class="meta">نشر بتاريخ: 01/01/2026</p>
+      <div class="full-news-body">اتنات</div>
+      <div style="margin-top: 30px;"><a href="../news.html" class="btn btn-muted">← العودة</a></div>
+    </section>
+  </main>
+  <script>
+    const btn=document.getElementById('dark-mode-toggle');
+    btn.onclick=()=>{
+        document.body.classList.toggle('dark-mode');
+        btn.textContent=document.body.classList.contains('dark-mode')?'☀️':'🌙';
+    };
+    const toggle=document.getElementById('menu-toggle');
+    const nav=document.getElementById('nav-wrapper');
+    toggle.onclick=()=>{
+        nav.classList.toggle('menu-open');
+        toggle.textContent=nav.classList.contains('menu-open')?'✕':'☰';
+    };
+  </script>
+</body></html>
