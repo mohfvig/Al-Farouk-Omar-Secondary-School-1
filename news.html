@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   مدرسة الفاروق عمر الثانوية العسكرية بنين
+  </title>
+  <link href="style.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&amp;display=swap" rel="stylesheet"/>
+ </head>
+ <body>
+  <header>
+   <div class="wrap brand">
+    <div class="title">
+     <div class="logo">
+      📚
+     </div>
+     <div>
+      <h1>
+       مدرسة الفاروق عمر الثانوية العسكرية بنين
+      </h1>
+     </div>
+     <img alt="شعار المدرسة" id="main-logo" src="icon.jpg"/>
+    </div>
+    <div class="header-actions">
+     <button aria-label="تبديل الوضع الليلي" class="btn btn-icon" id="dark-mode-toggle">
+      🌙
+     </button>
+     <button aria-label="فتح القائمة" class="btn btn-icon menu-toggle" id="menu-toggle">
+      ☰
+     </button>
+    </div>
+   </div>
+   <div id="nav-wrapper">
+    <nav class="wrap nav-menu">
+     <ul>
+      <li>
+       <a class="nav-link" href="index.html">
+        الصفحه الرئيسية
+       </a>
+      </li>
+      <li>
+       <a class="nav-link active" href="news.html">
+        الأخبار والفعاليات
+       </a>
+      </li>
+      <li>
+       <a class="nav-link" href="test.html#test">
+        جداول الامتحانات
+       </a>
+      </li>
+     </ul>
+    </nav>
+   </div>
+  </header>
+  <main class="wrap">
+   <section class="card hero-section">
+    <h2>
+     متابعة آخر الأخبار المهمة
+    </h2>
+    <p>
+     ابق على اطلاع دائم بجميع الأنشطة، الإعلانات الهامة، والنجاحات التي يحققها طلابنا وهيئتنا التعليمية.
+    </p>
+   </section>
+   <section class="news-archive">
+    <div class="section-title">
+     <h2>
+      أرشيف الأخبار
+     </h2>
+    </div>
+    <div class="news-grid news-full-list">
+    </div>
+   </section>
+  </main>
+  <footer>
+   © جميع الحقوق محفوظة لعام 2025 — مدرسة الفاروق عمر الثانوية العسكرية بنين
+  </footer>
+  <script>
+   // JavaScript for Dark Mode Toggle
+    const toggleButton = document.getElementById('dark-mode-toggle');
+    const body = document.body; 
+
+    // Dark Mode Logic
+    if (localStorage.getItem('theme') === 'dark') {
+      body.classList.add('dark-mode');
+      toggleButton.textContent = '☀️';
+    }
+
+    toggleButton.addEventListener('click', () => {
+      body.classList.toggle('dark-mode');
+
+      if (body.classList.contains('dark-mode')) {
+        localStorage.setItem('theme', 'dark');
+        toggleButton.textContent = '☀️';
+      } else {
+        localStorage.setItem('theme', 'light');
+        toggleButton.textContent = '🌙';
+      }
+    });
+
+    // ⬅️ الكود المُعدّل لتشغيل قائمة الهامبرغر مع حفظ حالة الرابط النشط ⬅️
+    const menuToggle = document.getElementById('menu-toggle');
+    const navWrapper = document.getElementById('nav-wrapper');
+    const navLinks = document.querySelectorAll('.nav-link');
+    
+    if (menuToggle && navWrapper) {
+      menuToggle.addEventListener('click', () => {
+        const isOpening = !navWrapper.classList.contains('menu-open');
+        
+        // تبديل حالة القائمة
+        navWrapper.classList.toggle('menu-open');
+        menuToggle.textContent = isOpening ? '✕' : '☰';
+      });
+    }
+
+    // إضافة مستمعي الأحداث لروابط القائمة (لتحديث الـ active)
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            // إزالة 'active' من الكل
+            navLinks.forEach(l => l.classList.remove('active'));
+            // إضافة 'active' للرابط الذي تم الضغط عليه
+            link.classList.add('active');
+            
+            // إغلاق القائمة بعد الاختيار
+            if (navWrapper.classList.contains('menu-open')) {
+                navWrapper.classList.remove('menu-open');
+                menuToggle.textContent = '☰';
+            }
+        });
+    });
+  </script>
+ <script>
+  // كود لجلب الأخبار من المجلد الذي حددناه في لوحة التحكم
+  async function fetchNews() {
+    const response = await fetch('https://api.github.com/repos/USERNAME/REPO_NAME/contents/content/news');
+    const files = await response.json();
+    const container = document.querySelector('.news-full-list');
+    
+    for (let file of files) {
+      const contentRes = await fetch(file.download_url);
+      const newsData = await contentRes.json(); // إذا حفظتها بصيغة JSON
+      
+      const html = `
+        <div class="card news-item">
+          <h3>${newsData.title}</h3>
+          <p class="meta">${newsData.date}</p>
+          <p>${newsData.body}</p>
+        </div>`;
+      container.insertAdjacentHTML('afterbegin', html);
+    }
+  }
+  window.onload = fetchNews;
+</script>
+
+ </body>
+</html>
