@@ -1,0 +1,17 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "images/uploads" # مكان حفظ صور الأخبار
+public_folder: "/images/uploads"
+
+collections:
+  - name: "news"
+    label: "الأخبار"
+    folder: "content/news" # المجلد الذي ستُخزن فيه الأخبار تلقائياً
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "العنوان", name: "title", widget: "string"}
+      - {label: "تاريخ النشر", name: "date", widget: "datetime"}
+      - {label: "نص الخبر", name: "body", widget: "markdown"}
