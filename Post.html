@@ -3,25 +3,24 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>تفاصيل الخبر</title>
+    <title>عرض الخبر</title>
     <link href="style.css" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet"/>
 </head>
 <body class="bg">
     <header>
         <div class="wrap brand">
-            <h1 id="news-title">جاري تحميل الخبر...</h1>
-            <a href="index.html" class="btn">العودة للرئيسية</a>
+            <h1 id="news-title">جاري التحميل...</h1>
+            <button class="btn btn-icon" id="dark-mode-toggle">🌙</button>
         </div>
     </header>
 
-    <main class="wrap">
+    <main class="wrap" style="margin-top: 20px;">
         <article class="card">
-            <small id="news-date" style="color: var(--muted);"></small>
-            <hr style="margin: 15px 0; border: 0; border-top: 1px solid var(--border);">
-            <div id="news-content" style="line-height: 1.8; font-size: 1.2rem; white-space: pre-wrap;">
-                جاري جلب تفاصيل الخبر من قاعدة البيانات...
-            </div>
+            <div id="news-date" style="font-size: 0.9rem; color: var(--muted); margin-bottom: 10px;"></div>
+            <div id="news-content" style="line-height: 1.8; font-size: 1.1rem; white-space: pre-wrap;"></div>
+            <hr style="margin: 20px 0; border: 0; border-top: 1px solid var(--border);">
+            <a href="index.html" class="btn btn-primary" style="display: inline-block; text-decoration: none;">العودة للرئيسية</a>
         </article>
     </main>
 
@@ -36,7 +35,6 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // جلب معرف الخبر من الرابط (الذي يأتي بعد ?id=)
         const urlParams = new URLSearchParams(window.location.search);
         const newsId = urlParams.get('id');
 
@@ -47,14 +45,21 @@
                     document.getElementById('news-title').innerText = data.title;
                     document.getElementById('news-date').innerText = "تاريخ النشر: " + data.date;
                     document.getElementById('news-content').innerText = data.content;
-                    document.title = data.title; // تغيير عنوان المتصفح
+                    document.title = data.title;
                 } else {
-                    document.getElementById('news-content').innerHTML = "<h2 style='color:red;'>⚠️ هذا الخبر لم يعد موجوداً.</h2>";
+                    document.getElementById('news-content').innerHTML = "<p style='color:red'>⚠️ الخبر غير موجود أو تم حذفه.</p>";
                 }
             });
-        } else {
-            window.location.href = "index.html"; // إذا دخل الصفحة بدون ID يحوله للرئيسية
         }
+    </script>
+    <script>
+        // كود الوضع الليلي لضمان التناسق
+        const toggleBtn = document.getElementById('dark-mode-toggle');
+        if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
+        toggleBtn.onclick = () => {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+        };
     </script>
 </body>
 </html>
