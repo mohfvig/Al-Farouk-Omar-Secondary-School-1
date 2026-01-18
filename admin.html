@@ -136,7 +136,7 @@
                         <div class="card admin-card">
                             <div><strong>${item.title}</strong><br><small>${item.date}</small></div>
                             <div style="display:flex; gap:8px;">
-                                <a href="Post.html?id=${key}" class="btn btn-muted" style="text-decoration:none; padding:8px 12px;">🔗 معاينة</a>
+                                <a href="post.html?id=${key}" class="btn btn-muted" style="text-decoration:none; padding:8px 12px;">🔗 معاينة</a>
                                 <button class="btn btn-muted" onclick="openEdit('${key}', '${item.title.replace(/'/g,"")}', '${item.content.replace(/'/g,"")}')">✏️</button>
                                 <button class="btn" style="background:var(--danger); color:white; border:none; padding:8px 12px;" onclick="deleteNews('${key}')">🗑️</button>
                             </div>
