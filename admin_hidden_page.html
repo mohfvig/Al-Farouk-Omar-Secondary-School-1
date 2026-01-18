@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="utf-8">
+    <title>لوحة التحكم - مدرسة الفاروق عمر</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg">
+    <main class="wrap card" style="margin-top:50px; padding:30px;">
+        <h2>إضافة خبر جديد</h2>
+        <input type="text" id="newsTitle" placeholder="عنوان الخبر" class="card" style="width:100%; margin-bottom:15px; padding:12px;">
+        <textarea id="newsContent" placeholder="تفاصيل الخبر..." class="card" style="width:100%; height:200px; padding:12px;"></textarea>
+        <button id="publishBtn" class="btn btn-primary" style="width:100%; cursor:pointer;">نشر الخبر للموقع</button>
+        <p id="status" style="text-align:center; margin-top:10px;"></p>
+    </main>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+        // بيانات مشروعك مأخوذة من الصورة المرفقة
+        const firebaseConfig = {
+            apiKey: "AIzaSyAY4DtaYX2toAUB-zNX23mBUEEZeuzE2DI",
+            authDomain: "news-f45f8.firebaseapp.com",
+            projectId: "news-f45f8",
+            storageBucket: "news-f45f8.firebasestorage.app",
+            messagingSenderId: "721892679840",
+            appId: "1:721892679840:web:21442faae706e448f951c5",
+            databaseURL: "https://news-f45f8-default-rtdb.firebaseio.com" // رابط قاعدة البيانات
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        document.getElementById('publishBtn').onclick = function() {
+            const title = document.getElementById('newsTitle').value;
+            const content = document.getElementById('newsContent').value;
+            
+            if(title && content) {
+                push(ref(db, 'news'), {
+                    title: title,
+                    content: content,
+                    date: new Date().toLocaleDateString('ar-EG')
+                }).then(() => {
+                    alert("✅ تم نشر الخبر بنجاح");
+                    document.getElementById('newsTitle').value = '';
+                    document.getElementById('newsContent').value = '';
+                });
+            } else {
+                alert("⚠️ يرجى ملء الحقول");
+            }
+        };
+    </script>
+</body>
+</html>
