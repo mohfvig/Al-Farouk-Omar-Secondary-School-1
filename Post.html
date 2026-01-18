@@ -1,132 +1,60 @@
 <!DOCTYPE html>
 <html dir="rtl" lang="ar">
- <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1" name="viewport"/>
-  <title>تفاصيل الخبر - مدرسة الفاروق عمر</title>
-  <link href="style.css" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&amp;display=swap" rel="stylesheet"/>
-  <style>
-    /* 🛠️ حل مشكلة خروج النص مباشرة داخل الصفحة لضمان العمل */
-    #p-content {
-        white-space: pre-wrap;       /* يحافظ على السطور الجديدة */
-        word-wrap: break-word;       /* كسر الكلمات الطويلة */
-        overflow-wrap: break-word;    /* دعم إضافي للمتصفحات */
-        word-break: break-word;       /* كسر النص عند حافة الحاوية */
-        line-height: 1.8;
-        font-size: 18px;
-        max-width: 100%;             /* ضمان عدم تجاوز عرض الأب */
-    }
-    #p-title {
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-        max-width: 100%;
-    }
-    /* منع الحاوية الكبيرة من التمدد أفقياً */
-    .full-post-card {
-        overflow: hidden; 
-        max-width: 100%;
-    }
-  </style>
- </head>
- <body class="bg">
-  <header>
-   <div class="wrap brand">
-    <div class="title">
-     <div class="logo">📚</div>
-     <h1>مدرسة الفاروق عمر الثانوية العسكرية بنين</h1>
-     <img alt="شعار المدرسة" id="main-logo" src="icon.jpg"/>
-    </div>
-    <div class="header-actions">
-     <button class="btn btn-icon" id="dark-mode-toggle">🌙</button>
-     <button class="btn btn-icon menu-toggle" id="menu-toggle">☰</button>
-    </div>
-   </div>
-   <div id="nav-wrapper">
-    <nav class="wrap nav-menu">
-     <ul>
-      <li><a href="index.html" class="nav-link">الصفحه الرئيسية</a></li>
-      <li><a href="news.html" class="nav-link active">الأخبار والفعاليات</a></li>
-      <li><a href="test.html#test" class="nav-link">جداول الامتحانات</a></li>
-     </ul>
-    </nav>
-   </div>
-  </header>
-
-  <main class="wrap">
-    <article class="card full-post-card" style="margin-top:30px; padding:20px; box-sizing: border-box;">
-        <h1 id="p-title" style="color:var(--primary); margin-bottom:10px;">جاري التحميل...</h1>
-        <p id="p-date" class="meta" style="margin-bottom:20px; color: var(--muted);"></p>
-        <hr style="border:0; border-top:1px solid var(--border); margin-bottom:20px;">
-        
-        <div id="p-content"></div>
-        
-        <div style="margin-top: 30px;">
-            <a href="news.html" class="btn btn-muted">العودة للأخبار</a>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>تفاصيل الخبر</title>
+    <link href="style.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet"/>
+</head>
+<body class="bg">
+    <header>
+        <div class="wrap brand">
+            <h1 id="news-title">جاري تحميل الخبر...</h1>
+            <a href="index.html" class="btn">العودة للرئيسية</a>
         </div>
-    </article>
-  </main>
+    </header>
 
-  <footer>
-   © جميع الحقوق محفوظة لعام 2025 — مدرسة الفاروق عمر الثانوية العسكرية بنين
-  </footer>
+    <main class="wrap">
+        <article class="card">
+            <small id="news-date" style="color: var(--muted);"></small>
+            <hr style="margin: 15px 0; border: 0; border-top: 1px solid var(--border);">
+            <div id="news-content" style="line-height: 1.8; font-size: 1.2rem; white-space: pre-wrap;">
+                جاري جلب تفاصيل الخبر من قاعدة البيانات...
+            </div>
+        </article>
+    </main>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyAY4DtaYX2toAUB-zNX23mBUEEZeuzE2DI",
-        databaseURL: "https://news-f45f8-default-rtdb.firebaseio.com",
-        projectId: "news-f45f8"
-    };
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
+        const firebaseConfig = {
+            apiKey: "AIzaSyAY4DtaYX2toAUB-zNX23mBUEEZeuzE2DI",
+            databaseURL: "https://news-f45f8-default-rtdb.firebaseio.com"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
 
-    const postId = new URLSearchParams(window.location.search).get('id');
-    if(postId) {
-        onValue(ref(db, 'news/' + postId), (snapshot) => {
-            const item = snapshot.val();
-            if(item) {
-                document.getElementById('p-title').innerText = item.title;
-                document.getElementById('p-date').innerText = item.date;
-                // استخدام textContent مع التنسيق أعلاه يضمن عدم خروج النص
-                document.getElementById('p-content').textContent = item.content;
-                document.title = item.title + " - مدرسة الفاروق عمر";
-            } else {
-                document.getElementById('p-title').innerText = "الخبر غير موجود";
-            }
-        });
-    }
-  </script>
+        // جلب معرف الخبر من الرابط (الذي يأتي بعد ?id=)
+        const urlParams = new URLSearchParams(window.location.search);
+        const newsId = urlParams.get('id');
 
-  <script>
-    // كود الوضع الليلي والمنيو الخاص بك
-    const toggleButton = document.getElementById('dark-mode-toggle');
-    const body = document.body; 
-
-    if (localStorage.getItem('theme') === 'dark') {
-      body.classList.add('dark-mode');
-      if(toggleButton) toggleButton.textContent = '☀️';
-    }
-
-    toggleButton.addEventListener('click', () => {
-      body.classList.toggle('dark-mode');
-      const isDark = body.classList.contains('dark-mode');
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
-      toggleButton.textContent = isDark ? '☀️' : '🌙';
-    });
-
-    const menuToggle = document.getElementById('menu-toggle');
-    const navWrapper = document.getElementById('nav-wrapper');
-    
-    if (menuToggle && navWrapper) {
-      menuToggle.addEventListener('click', () => {
-        const isOpening = !navWrapper.classList.contains('menu-open');
-        navWrapper.classList.toggle('menu-open');
-        menuToggle.textContent = isOpening ? '✕' : '☰';
-      });
-    }
-  </script>
- </body>
+        if (newsId) {
+            onValue(ref(db, `news/${newsId}`), (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    document.getElementById('news-title').innerText = data.title;
+                    document.getElementById('news-date').innerText = "تاريخ النشر: " + data.date;
+                    document.getElementById('news-content').innerText = data.content;
+                    document.title = data.title; // تغيير عنوان المتصفح
+                } else {
+                    document.getElementById('news-content').innerHTML = "<h2 style='color:red;'>⚠️ هذا الخبر لم يعد موجوداً.</h2>";
+                }
+            });
+        } else {
+            window.location.href = "index.html"; // إذا دخل الصفحة بدون ID يحوله للرئيسية
+        }
+    </script>
+</body>
 </html>
