@@ -1,136 +1,0 @@
-<!DOCTYPE html>
-<html dir="rtl" lang="ar">
- <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1" name="viewport"/>
-  <title>أرشيف الأخبار - مدرسة الفاروق عمر</title>
-  <link href="style.css" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&amp;display=swap" rel="stylesheet"/>
- </head>
- <body class="bg">
-  <header>
-   <div class="wrap brand">
-    <div class="title">
-     <div class="logo">📚</div>
-     <h1>مدرسة الفاروق عمر الثانوية العسكرية بنين</h1>
-     <img alt="شعار المدرسة" id="main-logo" src="icon.jpg"/>
-    </div>
-    <div class="header-actions">
-     <button class="btn btn-icon" id="dark-mode-toggle">🌙</button>
-     <button class="btn btn-icon menu-toggle" id="menu-toggle">☰</button>
-    </div>
-   </div>
-       <div id="nav-wrapper">
-      <nav class="wrap nav-menu">
-        <ul>
-          <li><a href="index.html" class="nav-link">الصفحه الرئيسية</a></li>
-          <li><a href="news.html" class="nav-link active">الأخبار والفعاليات</a></li>
-          <li><a href="test.html#test" class="nav-link">جداول الامتحانات</li></a>
-        </ul>
-      </nav>
-    </div>
-  </header>
-
-  <main class="wrap">
-   <div class="section-title" style="margin-top:20px;">
-    <h2>أرشيف الأخبار بالكامل</h2>
-   </div>
-   <div class="news-grid news-full-list" id="news-container">
-    </div>
-  </main>
-
- <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyAY4DtaYX2toAUB-zNX23mBUEEZeuzE2DI",
-        databaseURL: "https://news-f45f8-default-rtdb.firebaseio.com",
-        projectId: "news-f45f8"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-    const container = document.getElementById('news-container');
-
-    onValue(ref(db, 'news'), (snapshot) => {
-        const data = snapshot.val();
-        if (container) {
-            container.innerHTML = "";
-            if (data) {
-                Object.keys(data).reverse().forEach(id => {
-                    const item = data[id];
-                    // ملخص الخبر: 150 حرف فقط لضمان عدم تمدد الكارت بشكل مشوه
-                    const summary = item.content.length > 150 ? item.content.substring(0, 150) + "..." : item.content;
-                    container.innerHTML += `
-                        <div class="card news-item" style="word-wrap: break-word; overflow: hidden;">
-                            <h3 style="overflow-wrap: break-word;">${item.title}</h3>
-                            <p class="meta">${item.date}</p>
-                            <p style="overflow-wrap: break-word;">${summary}</p>
-                            <a href="post.html?id=${id}" class="btn btn-muted" style="margin-top:10px; display:inline-block;">اقرأ الخبر كاملاً ←</a>
-                        </div>`;
-                });
-            }
-        }
-    });
-</script>
-
-   <script>
-    // JavaScript for Dark Mode Toggle
-    const toggleButton = document.getElementById('dark-mode-toggle');
-    const body = document.body; 
-
-    // Dark Mode Logic
-    if (localStorage.getItem('theme') === 'dark') {
-      body.classList.add('dark-mode');
-      toggleButton.textContent = '☀️';
-    }
-
-    toggleButton.addEventListener('click', () => {
-      body.classList.toggle('dark-mode');
-
-      if (body.classList.contains('dark-mode')) {
-        localStorage.setItem('theme', 'dark');
-        toggleButton.textContent = '☀️';
-      } else {
-        localStorage.setItem('theme', 'light');
-        toggleButton.textContent = '🌙';
-      }
-    });
-
-    // ⬅️ الكود المُعدّل لتشغيل قائمة الهامبرغر مع حفظ حالة الرابط النشط ⬅️
-    const menuToggle = document.getElementById('menu-toggle');
-    const navWrapper = document.getElementById('nav-wrapper');
-    const navLinks = document.querySelectorAll('.nav-link');
-    
-    if (menuToggle && navWrapper) {
-      menuToggle.addEventListener('click', () => {
-        const isOpening = !navWrapper.classList.contains('menu-open');
-        
-        // تبديل حالة القائمة
-        navWrapper.classList.toggle('menu-open');
-        menuToggle.textContent = isOpening ? '✕' : '☰';
-      });
-    }
-
-    // إضافة مستمعي الأحداث لروابط القائمة (لتحديث الـ active)
-    navLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            // إزالة 'active' من الكل
-            navLinks.forEach(l => l.classList.remove('active'));
-            // إضافة 'active' للرابط الذي تم الضغط عليه
-            link.classList.add('active');
-            
-            // إغلاق القائمة بعد الاختيار
-            if (navWrapper.classList.contains('menu-open')) {
-                navWrapper.classList.remove('menu-open');
-                menuToggle.textContent = '☰';
-            }
-        });
-    });
-  </script>
-   <footer>
-   © جميع الحقوق محفوظة لعام 2025 — مدرسة الفاروق عمر الثانوية العسكرية بنين
-  </footer>
- </body>
-</html>
