@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   مدرسة الفاروق عمر الثانوية العسكرية بنين-  صفحة الاخبار</title>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link href="style.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&amp;display=swap" rel="stylesheet"/>
+ </head>
+ <body class="bg">
+  <header>
+   <div class="wrap brand">
+    <div class="title">
+     <div class="logo">📚</div>
+     <h1>مدرسة الفاروق عمر الثانوية العسكرية بنين</h1>
+     <img alt="شعار المدرسة" id="main-logo" src="icon.jpg"/>
+    </div>
+    <div class="header-actions">
+     <button class="btn btn-icon" id="dark-mode-toggle">🌙</button>
+     <button class="btn btn-icon menu-toggle" id="menu-toggle">☰</button>
+    </div>
+   </div>
+       <div id="nav-wrapper">
+      <nav class="wrap nav-menu">
+        <ul>
+          <li><a href="index.html" class="nav-link">الصفحه الرئيسية</a></li>
+          <li><a href="news.html" class="nav-link active">الأخبار والفعاليات</a></li>
+          <li><a href="test.html#test" class="nav-link">جداول الامتحانات</li></a>
+        </ul>
+      </nav>
+    </div>
+    <div class="top-info-bar">
+    <span>العام الدراسي: <span id="navYear">...</span></span>
+    <span class="separator">|</span>
+    <span>الترم: <span id="navTerm">...</span></span>
+</div>
+  </header>
+
+  <main class="wrap">
+        <div class="hero-section" style="text-align: center; padding: 30px 0;">
+   <div class="section-title">
+    <h2>الاخبار </h2>
+   </div>
+      <p>ابق علي اطلاع علي اخر الاخبار و الفاعليات.</p>
+    </div>
+    
+   <div class="news-grid news-full-list" id="news-container">
+    </div>
+  </main>
+ <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyAY4DtaYX2toAUB-zNX23mBUEEZeuzE2DI",
+        databaseURL: "https://news-f45f8-default-rtdb.firebaseio.com",
+        projectId: "news-f45f8"
+    };
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    
+    const container = document.getElementById('news-container');
+
+    onValue(ref(db, 'news'), (snapshot) => {
+        const data = snapshot.val();
+        if (container) {
+            container.innerHTML = "";
+            if (data) {
+                Object.keys(data).reverse().forEach(id => {
+                    const item = data[id];
+                    // ملخص الخبر: 150 حرف فقط لضمان عدم تمدد الكارت بشكل مشوه
+                    const summary = item.content.length > 40 ? item.content.substring(0, 40) + "..." : item.content;
+                    container.innerHTML += `
+                        <div class="card news-item" style="word-wrap: break-word; overflow: hidden;">
+                            <h3 style="overflow-wrap: break-word;">${item.title}</h3>
+                            <p class="meta">${item.date}</p>
+                            <p style="overflow-wrap: break-word;">${summary}</p>
+                            <a href="post.html?id=${id}" class="btn btn-muted" style="margin-top:10px; display:inline-block;">اقرأ الخبر كاملاً ←</a>
+                        </div>`;
+                });
+            }
+        }
+    });
+        // كود جلب السنة وعرضها تلقائياً
+const yearRef = ref(db, 'settings/currentYear');
+onValue(yearRef, (snapshot) => {
+    const year = snapshot.val() || "2025/2026"; // قيمة احتياطية
+    const yearElement = document.getElementById('displayYear');
+    if(yearElement) {
+        yearElement.innerText = year;
+    }
+});
+// تحديث الشريط العلوي تلقائياً
+onValue(ref(db, 'settings/currentYear'), (snapshot) => {
+    if(snapshot.exists()) {
+        document.getElementById('navYear').innerText = snapshot.val();
+    }
+});
+
+onValue(ref(db, 'settings/currentTerm'), (snapshot) => {
+    if(snapshot.exists()) {
+        document.getElementById('navTerm').innerText = snapshot.val();
+    }
+});
+
+</script>
+<script>
+    const body = document.body;
+    const toggleButton = document.getElementById('dark-mode-toggle');
+    const menuToggle = document.getElementById('menu-toggle');
+    const navWrapper = document.getElementById('nav-wrapper');
+
+    // تفعيل الوضع الليلي
+    if (localStorage.getItem('theme') === 'dark') {
+        body.classList.add('dark-mode');
+        if(toggleButton) toggleButton.textContent = '☀️';
+    }
+
+    if(toggleButton) {
+        toggleButton.onclick = () => {
+            body.classList.toggle('dark-mode');
+            const isDark = body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            toggleButton.textContent = isDark ? '☀️' : '🌙';
+        };
+    }
+
+    // القائمة
+    if(menuToggle && navWrapper) {
+        menuToggle.onclick = () => {
+            navWrapper.classList.toggle('menu-open');
+            menuToggle.textContent = navWrapper.classList.contains('menu-open') ? '✕' : '☰';
+        };
+    }
+document.addEventListener('DOMContentLoaded', function() {
+    const menu = document.getElementById('contactMenu');
+    const btn = document.getElementById('fabTrigger');
+    const icon = document.getElementById('fabIcon');
+
+    btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        menu.classList.toggle('active');
+        // تغيير الأيقونة عند الفتح
+        if (menu.classList.contains('active')) {
+            icon.className = 'fas fa-times';
+        } else {
+            icon.className = 'fas fa-comment-alt';
+        }
+    });
+
+    // إغلاق عند الضغط في أي مكان
+    document.addEventListener('click', function() {
+        menu.classList.remove('active');
+        icon.className = 'fas fa-comment-alt';
+    });
+});
+</script>
+       <footer style="text-align: center; padding: 20px; background: var(--card); border-top: 1px solid var(--border); margin-top: 20px;">
+   © جميع الحقوق محفوظة لعام <span id="displayYear"></span> — مدرسة الفاروق عمر الثانوية العسكرية بنين
+</footer>
+<div class="contact-fab-container" id="contactMenu">
+    <div class="fab-links-wrapper">
+        <a href="https://wa.me/201234567890" target="_blank" class="fab-link-item wa" title="واتساب">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+        <a href="https://www.facebook.com/share/1afZiGVGE4/" target="_blank" class="fab-link-item fb" title="فيسبوك">
+            <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="https://maps.app.goo.gl/zbz4YQaq6vAMrztq9" target="_blank" class="fab-link-item gp" title="موقعنا">
+            <i class="fas fa-location-dot"></i>
+        </a>
+    </div>
+
+    <button class="fab-main-trigger" id="fabTrigger">
+        <i class="fas fa-comment-alt" id="fabIcon"></i>
+    </button>
+</div>
+
+ </body>
+</html>

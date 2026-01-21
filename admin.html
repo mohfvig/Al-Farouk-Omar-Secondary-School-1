@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>لوحة التحكم - إدارة البيانات</title>
+    <link href="style.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet"/>
+    <style>
+        :root { --primary: #303AA2; --danger: #ef4444; }
+        body { font-family: 'Cairo', sans-serif; background: #f0f2f5; margin: 0; padding-bottom: 50px; }
+        .admin-wrap { max-width: 900px; margin: 20px auto; padding: 10px; }
+        .tabs { display: flex; background: #fff; border-radius: 12px; padding: 5px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .tab-btn { flex: 1; padding: 12px; border: none; background: none; cursor: pointer; font-weight: bold; border-radius: 10px; color: #555; }
+        .tab-btn.active { background: var(--primary); color: white; }
+        .panel { display: none; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .panel.active { display: block; }
+        .admin-input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; font-family: 'Cairo'; }
+        .btn-action { background: var(--primary); color: white; border: none; padding: 15px; border-radius: 10px; cursor: pointer; width: 100%; font-weight: bold; }
+        .btn-danger { background: white; color: var(--danger); border: 2px solid var(--danger); padding: 15px; border-radius: 10px; cursor: pointer; width: 100%; font-weight: bold; margin-top: 40px; transition: 0.3s; }
+        .btn-danger:hover { background: var(--danger); color: white; }
+        
+        .image-adder-box { border: 2px dashed var(--primary); padding: 20px; border-radius: 15px; background: #f8faff; text-align: center; margin: 15px 0; }
+        .add-img-btn { background: #10b981; color: white; padding: 10px 20px; border-radius: 8px; cursor: pointer; display: inline-block; font-weight: bold; margin-bottom: 10px; }
+        .images-preview-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; margin-top: 15px; }
+        .img-card { position: relative; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; height: 100px; }
+        .img-card img { width: 100%; height: 100%; object-fit: cover; }
+        .remove-img { position: absolute; top: 2px; right: 2px; background: red; color: white; border: none; border-radius: 50%; width: 20px; height: 20px; cursor: pointer; font-size: 12px; }
+        
+        #login-overlay { position: fixed; inset: 0; background: var(--primary); z-index: 9999; display: flex; align-items: center; justify-content: center; }
+        .login-box { background: white; padding: 30px; border-radius: 20px; width: 300px; text-align: center; }
+        .news-item { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #eee; }
+    </style>
+</head>
+<body>
+
+<div id="login-overlay">
+    <div class="login-box">
+        <h2>دخول الإدارة</h2>
+        <input type="password" id="adminPass" class="admin-input" placeholder="كلمة المرور">
+        <button onclick="checkAuth()" class="btn-action">دخول</button>
+    </div>
+</div>
+
+<main class="admin-wrap">
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab(0)">📅 الجداول</button>
+        <button class="tab-btn" onclick="switchTab(1)">📰 الأخبار</button>
+        <button class="tab-btn" onclick="switchTab(2)">⚙️ الإعدادات</button>
+    </div>
+
+    <div class="panel active">
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:15px;">
+            <div style="border:1px dashed #ccc; padding:10px; text-align:center;"> أولى-الشهر الاول <input type="file" onchange="upT(this,'grade1/oct')"></div>
+            <div style="border:1px dashed #ccc; padding:10px; text-align:center;"> أولى-الشهر الثاني <input type="file" onchange="upT(this,'grade1/nov')"></div>
+            <div style="border:1px dashed #ccc; padding:10px; text-align:center;"> أولى-نهاية <input type="file" onchange="upT(this,'grade1/half')"></div>
+            <div style="border:1px dashed #ccc; padding:10px; text-align:center;"> تانية-الشهر الاول <input type="file" onchange="upT(this,'grade2/oct')"></div>
+            <div style="border:1px dashed #ccc; padding:10px; text-align:center;"> تانية-الشهر الثاني <input type="file" onchange="upT(this,'grade2/nov')"></div>
+            <div style="border:1px dashed #ccc; padding:10px; text-align:center;"> تانية-نهاية <input type="file" onchange="upT(this,'grade2/half')"></div>
+        </div>
+    </div>
+
+    <div class="panel">
+        <div style="border-bottom: 2px solid #eee; padding-bottom: 20px; margin-bottom: 20px;">
+            <h3>نشر خبر جديد</h3>
+            <input type="text" id="nT" class="admin-input" placeholder="عنوان الخبر">
+            <textarea id="nC" class="admin-input" placeholder="نص الخبر" rows="4"></textarea>
+
+            <div class="image-adder-box">
+                <p style="margin-top:0;"><b>أضف صور الخبر (واحدة بواحدة):</b></p>
+                <label class="add-img-btn">
+                    ➕ اختر صورة لإضافتها
+                    <input type="file" id="singleInp" hidden accept="image/*" onchange="addOneImage(this)">
+                </label>
+                <div id="imagesList" class="images-preview-list"></div>
+                <small id="status" style="display:block; margin-top:10px; color: #666;"></small>
+            </div>
+
+            <button class="btn-action" id="pubBtn" onclick="sendN()">نشر الخبر بجميع صوره 🚀</button>
+        </div>
+
+        <h3>حذف الأخبار</h3>
+        <div id="newsItems"></div>
+    </div>
+
+    <div class="panel">
+        <h3>⚙️ الإعدادات العامة</h3>
+        <label>العام الدراسي:</label> <input type="text" id="yS" class="admin-input">
+        <label>الترم:</label> <input type="text" id="tS" class="admin-input">
+        <button class="btn-action" onclick="saveS()">حفظ التغييرات 💾</button>
+
+        <hr style="margin-top: 40px; border: 0; border-top: 1px solid #eee;">
+        
+        <h3 style="color:var(--danger)">⚠️ منطقة الخطورة</h3>
+        <p style="font-size: 13px; color: #666;">سيقوم الزر أدناه بمسح جميع الأخبار والجداول والإعدادات نهائياً من قاعدة البيانات.</p>
+        <button class="btn-danger" onclick="clearFullDatabase()">🗑️ تفريغ قاعدة البيانات بالكامل</button>
+    </div>
+</main>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getDatabase, ref, set, push, onValue, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+    const firebaseConfig = { apiKey: "AIzaSyAY4DtaYX2toAUB-zNX23mBUEEZeuzE2DI", databaseURL: "https://news-f45f8-default-rtdb.firebaseio.com" };
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    // --- نظام الدخول (يطلب الباسورد في كل مرة) ---
+    window.checkAuth = () => {
+        const passInput = document.getElementById('adminPass').value;
+        // التحقق من الباسورد (school admin12)
+        if(btoa(passInput) === "c2Nob29sIGFkbWluMTI=") {
+            document.getElementById('login-overlay').style.display='none';
+            // قمنا بإزالة localStorage.setItem لضمان عدم حفظ الدخول
+        } else { 
+            alert("كلمة المرور غير صحيحة"); 
+        }
+    };
+    
+    // تم إزالة شرط التثبيت التلقائي للدخول (localStorage.getItem) 
+    // لضمان ظهور الشاشة الزرقاء دائماً عند التحميل
+
+    window.switchTab = (n) => {
+        document.querySelectorAll('.panel').forEach((p, i) => p.classList.toggle('active', i === n));
+        document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', i === n));
+    };
+
+    // --- بقية الأكواد (إضافة الصور بالتتابع) ---
+    let finalImagesArray = [];
+
+    window.addOneImage = (inp) => {
+        const file = inp.files[0];
+        if(!file) return;
+        const status = document.getElementById('status');
+        status.innerText = "جاري معالجة الصورة...";
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const img = new Image();
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                const MAX_WIDTH = 800;
+                const scale = MAX_WIDTH / img.width;
+                canvas.width = MAX_WIDTH;
+                canvas.height = img.height * scale;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                finalImagesArray.push(canvas.toDataURL('image/jpeg', 0.6));
+                renderImages();
+                status.innerText = "تمت الإضافة!";
+                inp.value = "";
+            };
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    };
+
+    window.renderImages = () => {
+        const list = document.getElementById('imagesList');
+        list.innerHTML = "";
+        finalImagesArray.forEach((img, index) => {
+            list.innerHTML += `<div class="img-card"><img src="${img}"><button class="remove-img" onclick="removeImg(${index})">×</button></div>`;
+        });
+    };
+
+    window.removeImg = (index) => { finalImagesArray.splice(index, 1); renderImages(); };
+
+    // النشر والحذف
+    window.sendN = () => {
+        const t = document.getElementById('nT').value;
+        const c = document.getElementById('nC').value;
+        if(!t || !c) return alert("أكمل البيانات");
+        document.getElementById('pubBtn').disabled = true;
+        push(ref(db, 'news'), { title: t, content: c, images: finalImagesArray, date: new Date().toLocaleDateString('ar-EG') }).then(() => location.reload());
+    };
+
+    onValue(ref(db, 'news'), (s) => {
+        const list = document.getElementById('newsItems'); list.innerHTML = "";
+        s.forEach(child => { list.innerHTML += `<div class="news-item"><span>${child.val().title}</span><button style="color:red; border:none; background:none; cursor:pointer;" onclick="delN('${child.key}')">حذف</button></div>`; });
+    });
+    window.delN = (id) => { if(confirm("حذف الخبر؟")) remove(ref(db, 'news/'+id)); };
+
+    // تفريغ قاعدة البيانات
+    window.clearFullDatabase = () => {
+        if(confirm("⚠️ تحذير: سيتم حذف كل شيء؟") && confirm("🛑 هل أنت متأكد حقاً؟")) {
+            remove(ref(db, '/')).then(() => { alert("✅ تم المسح"); location.reload(); });
+        }
+    };
+
+    // جداول وإعدادات
+    window.upT = (inp, path) => {
+        const f = inp.files[0]; if(!f) return;
+        const r = new FileReader();
+        r.onload = (e) => set(ref(db, 'exam_tables/'+path), e.target.result).then(()=>alert("تم الرفع"));
+        r.readAsDataURL(f);
+    };
+    window.saveS = () => {
+        set(ref(db, 'settings'), { currentYear: document.getElementById('yS').value, currentTerm: document.getElementById('tS').value }).then(()=>alert("تم الحفظ"));
+    };
+    onValue(ref(db, 'settings'), (s) => { if(s.exists()){ document.getElementById('yS').value = s.val().currentYear; document.getElementById('tS').value = s.val().currentTerm; } });
+
+</script>
+
+</body>
+</html>

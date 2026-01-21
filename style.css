@@ -1,0 +1,566 @@
+/* الحاوية الأساسية */
+.contact-fab-container {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    display: flex;
+    flex-direction: row-reverse; /* تفتح لليسار */
+    align-items: center;
+    gap: 12px;
+    z-index: 99999;
+}
+
+/* الزر الرئيسي */
+.fab-main-trigger {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #303AA2; /* لون مدرسة الفاروق */
+    color: white;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(48, 58, 162, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* الأزرار الفرعية */
+.fab-links-wrapper {
+    display: flex;
+    gap: 10px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(20px) scale(0.8);
+    transition: all 0.3s ease;
+}
+
+/* عند الفتح */
+.contact-fab-container.active .fab-links-wrapper {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0) scale(1);
+}
+
+.contact-fab-container.active .fab-main-trigger {
+    background: #2c3e50;
+    transform: scale(0.9);
+}
+
+/* تصميم الأيقونات الصغيرة */
+.fab-link-item {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: white !important;
+    font-size: 18px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+    transition: transform 0.2s;
+}
+
+.fab-link-item:hover {
+    transform: translateY(-5px);
+}
+
+/* ألوان المنصات الرسمية */
+.wa { background: #25D366; }
+.fb { background: #1877F2; }
+.gp { background: #EA4335; }
+
+/* للموبايل ليكون مريح لليد */
+@media (max-width: 480px) {
+    .contact-fab-container { bottom: 15px; right: 15px; }
+    .fab-main-trigger { width: 50px; height: 50px; }
+    .fab-link-item { width: 40px; height: 40px; }
+}
+
+
+
+.top-info-bar {
+    background: var(--accent); /* سيأخذ نفس لون موقعك الأساسي */
+    color: white;
+    text-align: center;
+    padding: 5px 0;
+    font-size: 13px;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+.top-info-bar .separator {
+    opacity: 0.5;
+}
+
+:root{
+  --primary:#303AA2;
+  --accent:#f6b042;
+  --muted:#6b7280;
+  --bg:#f7fbff;
+  --card:#FFFFFF;
+  --text:#0b2b42;
+  --light-text: #153347;
+  --border:#f0f3f7;
+  --shadow:rgba(15,30,40,0.06);
+  --radius:14px;
+  --container-max:1000px;
+
+  /* Dark Mode Variables (Default Light Values) */
+  --dark-bg: #1A1A2E;
+  --dark-card: #202636;
+  --dark-text: #E0E0E0;
+  --dark-muted: #9AA0B1;
+  --dark-border: #3A3F50;
+  --dark-shadow: rgba(0, 0, 0, 0.4);
+}
+
+/* 🌙 Dark Mode Overrides 🌙 */
+/* تأكد من إضافة هذا الجزء داخل قسم .dark-mode */
+.dark-mode #p-content, 
+.dark-mode #p-title {
+    color: var(--dark-text) !important;
+}
+
+.dark-mode #p-date {
+    color: var(--dark-muted) !important;
+}
+
+.dark-mode {
+  background: linear-gradient(180deg, var(--dark-bg) 0%, #151825 100%);
+  color: var(--dark-text);
+}
+
+.dark-mode header{
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+}
+
+.dark-mode .lead{
+  color:rgba(255,255,255,0.85);
+}
+
+.dark-mode .card{
+  background:var(--dark-card);
+  box-shadow:0 6px 20px var(--dark-shadow);
+}
+
+.dark-mode .school-info p,
+.dark-mode .news-item p{
+  color:var(--dark-muted);
+}
+
+.dark-mode .school-info hr{
+  border-top:1px solid var(--dark-border);
+}
+
+.dark-mode .meta,
+.dark-mode ul,
+.dark-mode footer{
+  color:var(--dark-muted);
+}
+
+.dark-mode .btn-muted{
+  background:#3A445C;
+  color:white;
+  border:1px solid #3A445C;
+}
+
+.dark-mode .map{
+  border:1px solid rgba(255,255,255,0.1);
+}
+
+.dark-mode .read-more{
+    color:var(--accent) !important;
+}
+
+.dark-mode .hero-section h2{
+    color:var(--dark-text);
+}
+.dark-mode .hero-section p{
+    color:var(--dark-muted);
+}
+.dark-mode .stat-item strong{
+    color:var(--accent);
+}
+.dark-mode .news-item h3{
+    color:var(--accent);
+}
+.dark-mode .btn-icon:hover{
+  background:rgba(255,255,255,0.1); 
+}
+
+/* End Dark Mode Overrides */
+
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:'Cairo',sans-serif;
+  background:linear-gradient(180deg, var(--bg) 0%, #eef6ff 100%);
+  color:var(--text);
+  line-height:1.45;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+header{
+  background:linear-gradient(90deg,var(--primary),#0a87d1);
+  color:white;
+  padding:28px 16px 0;
+  box-shadow:0 6px 20px rgba(11,99,164,0.12);
+  border-bottom-left-radius:18px;
+  border-bottom-right-radius:18px;
+  position: relative;
+}
+
+.wrap{
+  max-width:var(--container-max);
+  margin:0 auto;
+  padding:0 16px;
+}
+
+/* ⬅️ ترتيب العلامة التجارية والأزرار (للديسكتوب والهاتف) ⬅️ */
+.brand{
+  display:flex;
+  gap:14px;
+  align-items:center;
+  justify-content:space-between; /* يفصل العنوان عن الأزرار */
+  padding-bottom:12px;
+}
+
+.header-actions{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+
+.title{
+  display:flex;
+  gap:12px;
+  align-items:center;
+}
+
+/* ❌ إخفاء رمز الكتاب القديم نهائيًا ❌ */
+.logo{
+  display:none !important; 
+}
+
+/* ⬅️ قاعدة الشعار الرئيسية (للدسك توب كقيمة افتراضية) ⬅️ */
+#main-logo{
+    display: block; 
+    height: 80px; 
+    width: auto;
+    border-radius: 8px;
+    margin-right: 20px; 
+    margin-left: 0; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+h1{font-size:22px;margin:0;font-weight:700}
+h2{font-size:20px;margin:0 0 12px;font-weight:700}
+h3{font-size:16px;margin:0 0 8px;font-weight:600}
+
+/* Navigation Menu Styles (Desktop) */
+.nav-menu ul{
+  display:flex;
+  list-style:none;
+  padding:0;
+  margin:0;
+  border-top:1px solid rgba(255,255,255,0.2);
+}
+
+.nav-menu li a{
+  display:block;
+  padding:12px 18px;
+  color:white;
+  text-decoration:none;
+  font-weight:600;
+  transition:background-color 0.2s;
+  cursor: pointer; 
+}
+
+.nav-menu li a:hover,
+.nav-menu li a.active{
+  background:rgba(255,255,255,0.1);
+}
+/* End Navigation Menu Styles */
+
+main{margin:20px auto;padding:16px;}
+
+/* Hero Section */
+.hero-section{
+    padding:30px;
+    margin-bottom:20px;
+    background-color: #eef5fb; 
+    background-image: none; 
+    background-size: cover;
+    color:var(--text); 
+    text-align:center;
+}
+.hero-section h2{
+    font-size:30px;
+    margin-bottom:10px;
+    color:var(--primary); 
+}
+.hero-section p{
+    font-size:18px;
+    margin-bottom:15px;
+    color:var(--muted); 
+}
+
+/* Quick Stats Section */
+.quick-stats{
+    display:flex;
+    gap:18px;
+    margin-bottom:20px;
+    text-align:center;
+}
+.stat-item{
+    flex:1;
+    padding:18px;
+}
+.stat-item strong{
+    display:block;
+    font-size:28px;
+    color:var(--primary);
+    font-weight:800;
+    margin-bottom:4px;
+}
+.stat-item p{
+    margin:0;
+    color:var(--muted);
+    font-size:14px;
+}
+/* News Section */
+.news-section{
+    margin-bottom:30px;
+}
+.news-grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap:18px;
+}
+.news-item{
+    padding:18px;
+}
+.news-item h3{
+    color:var(--primary);
+    margin-bottom:4px;
+}
+.news-item .meta{
+    margin-bottom:12px;
+}
+.news-item p{
+    margin:0 0 12px;
+    font-size:15px;
+}
+.read-more{
+    color:var(--primary);
+    text-decoration:none;
+    font-weight:600;
+    font-size:14px;
+}
+
+
+.grid{
+  display:grid;
+  grid-template-columns: 1fr 360px;
+  gap:18px;
+  align-items:start;
+}
+/* Cards */
+.card{
+  background:var(--card);
+  border-radius:var(--radius);
+  padding:18px;
+  box-shadow:0 6px 20px var(--shadow);
+  transition: all 0.3s ease-in-out; 
+}
+
+.section-title h2,
+.small-title{
+  font-size:18px;
+  margin:0 0 12px;
+}
+
+.school-info p{margin:8px 0;color:var(--light-text)}
+.meta{color:var(--muted);font-size:14px;margin-top:8px}
+
+.school-info hr{
+  border:none;
+  border-top:1px solid var(--border);
+  margin:16px 0;
+}
+
+ul{padding-inline-start:18px;margin:8px 0;color:var(--light-text)}
+
+/* Sidebar */
+.map{
+  width:100%;height:220px;border-radius:10px;
+  overflow:hidden;border:1px solid rgba(10,10,10,0.04);
+  margin:12px 0;
+}
+
+.links{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+
+.btn{
+  display:inline-block;padding:10px 12px;border-radius:10px;text-decoration:none;
+  font-weight:600;text-align:center;
+  box-shadow:0 6px 16px rgba(11,99,164,0.08);
+  transition:background-color 0.2s, color 0.2s;
+  border:1px solid transparent; 
+}
+
+/* Hover effects for buttons */
+.btn-primary:hover,
+.btn-primary:active{
+    background: #253185; 
+}
+.btn-muted:hover,
+.btn-muted:active{
+    background: #dceefc; 
+    border-color: rgba(11,99,164,0.15);
+}
+
+
+.btn-icon{
+  background:rgba(255,255,255,0.14);
+  color:white;
+  border:none;
+  width:40px;
+  height:40px;
+  font-size:18px;
+  cursor:pointer;
+  padding:0;
+  line-height:1;
+  box-shadow:none;
+}
+
+.btn-icon:hover{
+  background:rgba(255,255,255,0.25); 
+}
+
+.btn-primary{background:var(--primary);color:white}
+.btn-muted{background:#eef5fb;color:var(--primary);border:1px solid rgba(11,99,164,0.06)}
+
+footer{
+  max-width:var(--container-max);
+  margin:28px auto 60px;
+  padding:16px;
+  color:var(--muted);
+  text-align:center;
+  font-size:14px;
+}
+
+/* ⬇️ إخفاء زر الهامبرغر على الديسكتوب ⬇️ */
+.menu-toggle{
+    display: none;
+}
+
+/* 📱 Responsive (Mobile Rules) 📱 */
+@media (max-width:880px){
+  /* ⬅️ وضع الأزرار على اليسار وعناصر العنوان على اليمين ⬅️ */
+  .brand{
+      flex-direction: row; 
+      justify-content: space-between; 
+      align-items: center; 
+      padding-bottom: 12px;
+  }
+  
+  /* ⬇️ وضع الشعار تحت الاسم ⬇️ */
+  .title{
+      flex-direction: column; 
+      align-items: flex-start;
+      gap: 4px; 
+  }
+  
+  /* ⬇️ تصغير حجم الشعار في وضع الهاتف ⬇️ */
+  #main-logo{
+      order: 3; /* وضع الشعار أسفل الاسم */
+      height: 60px; 
+      margin-top: 8px;
+      margin-right: 0;
+      box-shadow: none; 
+  }
+  
+  /* ⬅️ التأكد من إلغاء Absolute Position للأزرار ⬅️ */
+  .brand .header-actions{
+      position: static !important; /* هذا يضمن بقاء الأزرار على اليسار */
+      top: unset;
+      left: unset; 
+      flex-grow: unset;
+      justify-content: flex-start; 
+  }
+  
+  /* ⚙️ قواعد قائمة الهامبرغر العاملة ⚙️ */
+  #nav-wrapper {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-in-out, opacity 0.3s;
+      opacity: 0;
+  }
+  #nav-wrapper.menu-open {
+      max-height: 500px; /* فتح القائمة */
+      opacity: 1;
+  }
+  .nav-menu ul {
+    flex-direction: column; 
+    border-top: none; 
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  .nav-menu li a {
+    padding: 12px 10px; 
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); 
+  }
+  .nav-menu li:last-child a {
+    border-bottom: none; 
+  }
+  
+  /* Mobile Layout Adjustments */
+  .grid{grid-template-columns:1fr}
+  .quick-stats{flex-direction:column;}
+  .news-grid{grid-template-columns: 1fr;}
+  .mobile-hide{display:none;}
+  .hero-section h2{font-size:24px;}
+  .hero-section p{font-size:16px;}
+  
+  /* ⬇️ إظهار زر الهامبرغر ⬇️ */
+  .menu-toggle{
+      display: inline-block;
+  }
+}
+
+
+/* 🖥️ قواعد الديسكتوب (min-width: 881px) 🖥️ */
+@media (min-width: 881px){
+  
+  /* إعادة ترتيب العنوان أفقياً للديسكتوب */
+  .title{
+    gap: 0; 
+    flex-direction: row; 
+  }
+  
+  /* إعادة خصائص الشعار الأصلية للديسكتوب */
+  #main-logo{
+    order: unset; 
+    height: 80px; 
+    margin-right: 20px; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  }
+  
+  /* 🚀 التمرير السلس وتأثير الزوم عند الضغط 🚀 */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* تأثير الزوم/الإبراز عند استهداف القسم */
+  .card:target {
+    transform: scale(1.01);
+    box-shadow: 0 10px 30px rgba(11, 99, 164, 0.2); 
+  }
+}
