@@ -1,117 +1,0 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>جداول الصف الثالث الثانوي</title>
-  <link rel="stylesheet" href="../style.css"> 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
-</head>
-
-<body>
-  <header>
-    <div class="wrap brand">
-      <div class="title">
-        <div class="logo">📚</div>
-        <div>
-          <h1>مدرسة الفاروق عمر الثانوية العسكرية بنين</h1>
-        </div>
-        <img src="../icon.jpg" alt="شعار المدرسة" id="main-logo">
-      </div>
-      
-      <div class="header-actions">
-        <button id="dark-mode-toggle" class="btn btn-icon" aria-label="تبديل الوضع الليلي">🌙</button>
-        <button id="menu-toggle" class="btn btn-icon menu-toggle" aria-label="فتح القائمة">☰</button>
-      </div>
-    </div>
-    
-     <div id="nav-wrapper">
-      <nav class="wrap nav-menu">
-        <ul>
-          <li><a href="../index.html" class="nav-link">الصفحه الرئيسية</a></li>
-          <li><a href="../news.html" class="nav-link">الأخبار والفعاليات</a></li>
-          <li><a href="../test.html#test" class="nav-link active">جداول الامتحانات</li></a>
-        </ul>
-      </nav>
-    </div>
-  </header>
-  
-  <main class="wrap">
-      <div class="grid">
-          <div class="content-area">
-              <div class="card">
-                  <h2>جداول امتحانات الصف الثالث الثانوي</h2>
-                  <div style="padding: 20px; text-align: center; border: 2px dashed var(--primary); margin: 30px 0; border-radius: 10px; background-color: var(--bg);">     <h3 style="font-size: 40px; color: var(--primary); margin: 0; padding: 20px 0; font-weight: 700;">قريباً...</h3>
-                      <p style="margin-top: 10px; color: var(--muted);">سيتم إدراج جدول امتحانات  الصف الثالث الثانوي عام 2025 في صفحة وزارة التربية والتعليم المصريه علي فيسبوك.</p>
-                  </div>
-                  <a href="../test.html" class="btn btn-primary" style="margin-top: 15px;">العودة لصفحة الجداول</a>
-              </div>
-          </div>
-          
-  <aside class="sidebar">
-    <div class="card">
-      <h3 class="small-title">ملاحظات هامة للطلاب</h3>
-      <ul>
-        <li>ضرورة الحضور قبل بدء الاختبار بـ 30 دقيقة.</li>
-        <li>يمنع منعاً باتاً اصطحاب الهاتف المحمول.</li>
-        <li>التأكد من رقم الجلوس قبل الدخول للجنة.</li>
-        <li>يلزم الحضور بالزي المدرسي</li>
-      </ul>
-    </div>
-  </aside>
-      </div>
-  </main>
-  
-  <footer>
-    © جميع الحقوق محفوظة لعام 2025 — مدرسة الفاروق عمر الثانوية العسكرية بنين
-  </footer>
-
-</body>
-
-  <script>
-    // **ملاحظة: تأكد من تحديث مسار ملفات الـ JS الداخلية في حالة وجودها.**
-    // كود تبديل الوضع الليلي (Dark Mode)
-    const toggleButton = document.getElementById('dark-mode-toggle');
-    const body = document.body;
-    
-    if (localStorage.getItem('theme') === 'dark') {
-      body.classList.add('dark-mode');
-      toggleButton.textContent = '☀️';
-    }
-    
-    toggleButton.addEventListener('click', () => {
-      body.classList.toggle('dark-mode');
-      
-      if (body.classList.contains('dark-mode')) {
-        localStorage.setItem('theme', 'dark');
-        toggleButton.textContent = '☀️';
-      } else {
-        localStorage.setItem('theme', 'light');
-        toggleButton.textContent = '🌙';
-      }
-    });
-    
-    // كود قائمة الهامبرغر
-    const menuToggle = document.getElementById('menu-toggle');
-    const navWrapper = document.getElementById('nav-wrapper');
-    const navLinks = document.querySelectorAll('.nav-link');
-    
-    if (menuToggle && navWrapper) {
-      menuToggle.addEventListener('click', () => {
-        navWrapper.classList.toggle('menu-open');
-        menuToggle.textContent = navWrapper.classList.contains('menu-open') ? '✕' : '☰';
-      });
-    }
-    
-    navLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        if (navWrapper.classList.contains('menu-open')) {
-          navWrapper.classList.remove('menu-open');
-          menuToggle.textContent = '☰';
-        }
-      });
-    });
-  </script>
-</html>
